@@ -1,103 +1,109 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { Coffee, ShoppingCart, Package, Plus } from 'lucide-react';
+import DashboardPage from '@/components/DashboardPage';
+import OrdersPage from '@/components/OrdersPage';
+import ProductsPage from '@/components/ProductsPage';
+import CreateOrderPage from '@/components/CreateOrderPage';
+import OrderViewPage from '@/components/OrderViewPage';
+
+
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [currentPage, setCurrentPage] = useState<'dashboard' | 'orders' | 'products' | 'create-order'>('dashboard');
+  const [viewingOrderId, setViewingOrderId] = useState<number | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const handleViewOrder = (orderId: number) => {
+    setViewingOrderId(orderId);
+    setCurrentPage('orders');
+  };
+
+  const handleBackFromOrder = () => {
+    setViewingOrderId(null);
+  };
+
+  const handleOrderCreated = () => {
+    setCurrentPage('orders');
+    setViewingOrderId(null);
+  };
+
+  // Navigation component
+  const Navigation = () => (
+    <header className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Coffee className="h-8 w-8 text-amber-600" />
+            <h1 className="ml-2 text-xl font-bold text-gray-900">Bonnetjes Cafe</h1>
+          </div>
+          <nav className="flex space-x-8">
+            <button
+              onClick={() => setCurrentPage('dashboard')}
+              className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
+                currentPage === 'dashboard' 
+                  ? 'bg-amber-100 text-amber-700' 
+                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <Coffee className="h-4 w-4 mr-2" />
+              Dashboard
+            </button>
+            <button
+              onClick={() => setCurrentPage('orders')}
+              className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
+                currentPage === 'orders' 
+                  ? 'bg-amber-100 text-amber-700' 
+                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              Orders
+            </button>
+            <button
+              onClick={() => setCurrentPage('products')}
+              className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
+                currentPage === 'products' 
+                  ? 'bg-amber-100 text-amber-700' 
+                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <Package className="h-4 w-4 mr-2" />
+              Products
+            </button>
+            <button
+              onClick={() => setCurrentPage('create-order')}
+              className={`flex items-center px-3 py-2 rounded-md text-sm font-medium bg-amber-600 text-white hover:bg-amber-700 ${
+                currentPage === 'create-order' ? 'bg-amber-700' : ''
+              }`}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New Order
+            </button>
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-0">
+          {currentPage === 'dashboard' && <DashboardPage onViewOrder={handleViewOrder} />}
+          {currentPage === 'orders' && !viewingOrderId && <OrdersPage />}
+          {currentPage === 'orders' && viewingOrderId && (
+            <OrderViewPage
+              orderId={viewingOrderId}
+              onBack={handleBackFromOrder}
+              onOrderDeleted={handleBackFromOrder}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          )}
+          {currentPage === 'products' && <ProductsPage />}
+          {currentPage === 'create-order' && <CreateOrderPage onOrderCreated={handleOrderCreated} />}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
