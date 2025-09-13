@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Trash2, Plus, Minus, Edit, Save, X } from 'lucide-react';
-import { Order, Product, OrderItem } from '@/types';
+import { ArrowLeft, Trash2, Plus, Minus } from 'lucide-react';
+import { Order, Product } from '@/types';
 import ConfirmDialog from './ConfirmDialog';
 
 interface OrderViewPageProps {
@@ -15,7 +15,7 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedItems, setEditedItems] = useState<any[]>([]);
+  const [editedItems, setEditedItems] = useState<Array<{ id: number; productId: number; quantity: number; price: number; product: Product }>>([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
 
   useEffect(() => {

@@ -28,7 +28,7 @@ export async function PUT(
       });
 
       await Promise.all(
-        orderItems.map((item: any) =>
+        orderItems.map((item: { productId: number; quantity: number; price: number }) =>
           tx.orderItem.create({
             data: {
               orderId: parseInt(id),

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ShoppingCart, Package, DollarSign, Clock } from 'lucide-react';
+import { ShoppingCart, Package, DollarSign, Clock, LucideIcon } from 'lucide-react';
 import { DashboardStats, Order } from '@/types';
 
 interface DashboardPageProps {
@@ -74,7 +74,7 @@ const DashboardPage = ({ onViewOrder }: DashboardPageProps) => {
   const StatCard = ({ title, value, icon: Icon, color }: {
     title: string;
     value: string | number;
-    icon: any;
+    icon: LucideIcon;
     color: string;
   }) => (
     <div className="bg-white overflow-hidden shadow rounded-lg">

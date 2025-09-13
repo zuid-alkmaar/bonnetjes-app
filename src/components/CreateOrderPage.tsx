@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Minus, ShoppingCart, X } from 'lucide-react';
-import { Product, Order, CreateOrderItem } from '@/types';
+import { Product } from '@/types';
 
 interface CreateOrderPageProps {
   onOrderCreated?: () => void;

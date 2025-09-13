@@ -31,8 +31,8 @@ const ProductsPage = () => {
         if (ordersResponse.ok) {
           const ordersData = await ordersResponse.json();
           const referencedIds = new Set<number>();
-          ordersData.forEach((order: any) => {
-            order.orderItems?.forEach((item: any) => {
+          ordersData.forEach((order: { orderItems?: Array<{ productId: number }> }) => {
+            order.orderItems?.forEach((item: { productId: number }) => {
               referencedIds.add(item.productId);
             });
           });
