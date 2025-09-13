@@ -13,7 +13,6 @@ export interface Order {
   id: number;
   customerName: string;
   totalAmount: number;
-  isPaid: boolean;
   createdAt: string;
   updatedAt: string;
   orderItems?: OrderItem[];

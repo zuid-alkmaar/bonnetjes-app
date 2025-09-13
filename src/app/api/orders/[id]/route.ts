@@ -44,14 +44,13 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json()
-    const { isPaid, customerName } = body
+    const { customerName } = body
 
     const order = await prisma.order.update({
       where: {
         id: parseInt(id)
       },
       data: {
-        ...(isPaid !== undefined && { isPaid }),
         ...(customerName && { customerName })
       },
       include: {

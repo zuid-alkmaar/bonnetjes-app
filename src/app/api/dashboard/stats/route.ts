@@ -21,13 +21,10 @@ export async function GET() {
       }
     })
 
-    // Get total revenue (from paid orders)
+    // Get total revenue (from all orders)
     const totalRevenueResult = await prisma.order.aggregate({
       _sum: {
         totalAmount: true
-      },
-      where: {
-        isPaid: true
       }
     })
 

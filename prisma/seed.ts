@@ -8,112 +8,168 @@ async function main() {
   await prisma.order.deleteMany()
   await prisma.product.deleteMany()
 
-  // Create products
+  // Create products from CSV data
   const products = await prisma.product.createMany({
     data: [
       {
-        name: "Espresso",
-        price: 2.50,
-        category: "Coffee",
-        description: "Strong black coffee shot",
+        name: "Alcoholvrij bier",
+        price: 2.70,
+        category: "Eten en drinken",
+        description: "Alcoholvrij bier",
         isActive: true
       },
       {
-        name: "Cappuccino",
-        price: 3.50,
-        category: "Coffee",
-        description: "Espresso with steamed milk and foam",
+        name: "Andere koffie",
+        price: 2.20,
+        category: "Eten en drinken",
+        description: "Andere koffie",
         isActive: true
       },
       {
-        name: "Latte",
-        price: 4.00,
-        category: "Coffee",
-        description: "Espresso with steamed milk",
+        name: "Bier",
+        price: 2.70,
+        category: "Eten en drinken",
+        description: "Bier",
         isActive: true
       },
       {
-        name: "Americano",
-        price: 3.00,
-        category: "Coffee",
-        description: "Espresso with hot water",
+        name: "Extra bol ijs",
+        price: 1.00,
+        category: "Eten en drinken",
+        description: "Extra bol ijs",
         isActive: true
       },
       {
-        name: "Mocha",
+        name: "Extra uur zaal 2",
+        price: 35.00,
+        category: "Extra uren huur zalen",
+        description: "Extra uur zaal 2",
+        isActive: true
+      },
+      {
+        name: "Extra uur zaal 3",
+        price: 35.00,
+        category: "Extra uren huur zalen",
+        description: "Extra uur zaal 3",
+        isActive: true
+      },
+      {
+        name: "Falafel",
         price: 4.50,
-        category: "Coffee",
-        description: "Espresso with chocolate and steamed milk",
+        category: "Eten en drinken",
+        description: "Falafel",
         isActive: true
       },
       {
-        name: "Croissant",
-        price: 3.25,
-        category: "Pastry",
-        description: "Buttery flaky pastry",
+        name: "Frisdrank",
+        price: 2.20,
+        category: "Eten en drinken",
+        description: "Frisdrank",
         isActive: true
       },
       {
-        name: "Muffin - Blueberry",
-        price: 2.75,
-        category: "Pastry",
-        description: "Fresh blueberry muffin",
+        name: "Jus d'orange",
+        price: 2.70,
+        category: "Eten en drinken",
+        description: "Jus d'orange",
         isActive: true
       },
       {
-        name: "Danish - Cheese",
-        price: 3.50,
-        category: "Pastry",
-        description: "Flaky pastry with cream cheese",
+        name: "Koffie",
+        price: 1.90,
+        category: "Eten en drinken",
+        description: "Koffie",
         isActive: true
       },
       {
-        name: "Sandwich - Ham & Cheese",
-        price: 6.50,
-        category: "Food",
-        description: "Ham and cheese on fresh bread",
+        name: "Los broodje",
+        price: 0.50,
+        category: "Eten en drinken",
+        description: "Los broodje",
         isActive: true
       },
       {
-        name: "Sandwich - Turkey Club",
-        price: 7.25,
-        category: "Food",
-        description: "Turkey, bacon, lettuce, tomato",
+        name: "Ontbijt",
+        price: 3.00,
+        category: "Eten en drinken",
+        description: "Ontbijt",
         isActive: true
       },
       {
-        name: "Bagel with Cream Cheese",
-        price: 4.00,
-        category: "Food",
-        description: "Fresh bagel with cream cheese",
+        name: "Radler 0%",
+        price: 2.70,
+        category: "Eten en drinken",
+        description: "Radler 0%",
         isActive: true
       },
       {
-        name: "Green Tea",
-        price: 2.25,
-        category: "Tea",
-        description: "Premium green tea",
+        name: "Schepijs 1 bol",
+        price: 1.50,
+        category: "Eten en drinken",
+        description: "Schepijs 1 bol",
         isActive: true
       },
       {
-        name: "Earl Grey",
-        price: 2.50,
-        category: "Tea",
-        description: "Classic Earl Grey tea",
-        isActive: true
-      },
-      {
-        name: "Orange Juice",
-        price: 3.75,
-        category: "Beverage",
-        description: "Fresh squeezed orange juice",
-        isActive: true
-      },
-      {
-        name: "Sparkling Water",
+        name: "Soep",
         price: 2.00,
-        category: "Beverage",
-        description: "Refreshing sparkling water",
+        category: "Eten en drinken",
+        description: "Soep",
+        isActive: true
+      },
+      {
+        name: "Thee",
+        price: 1.90,
+        category: "Eten en drinken",
+        description: "Thee",
+        isActive: true
+      },
+      {
+        name: "Warme chocolademelk",
+        price: 2.20,
+        category: "Eten en drinken",
+        description: "Warme chocolademelk",
+        isActive: true
+      },
+      {
+        name: "Wijn",
+        price: 2.70,
+        category: "Eten en drinken",
+        description: "Wijn",
+        isActive: true
+      },
+      {
+        name: "Zaal 2 per uur",
+        price: 35.00,
+        category: "Extra uren huur zalen",
+        description: "Zaal 2 per uur",
+        isActive: true
+      },
+      {
+        name: "Zaal 2 voor 2 uur",
+        price: 70.00,
+        category: "Extra uren huur zalen",
+        description: "Zaal 2 voor 2 uur",
+        isActive: true
+      },
+      {
+        name: "Zaal 2 voor 3 uur",
+        price: 105.00,
+        category: "Extra uren huur zalen",
+        description: "Zaal 2 voor 3 uur",
+        isActive: true
+      },
+      {
+        name: "Zaal 2 voor 4 uur",
+        price: 140.00,
+        category: "Extra uren huur zalen",
+        description: "Zaal 2 voor 4 uur",
+        isActive: true
+      },
+      {
+        name: "Zakje snoep",
+        price: 1.00,
+        category: "Eten en drinken",
+        description: "Zakje snoep",
         isActive: true
       }
     ]
@@ -126,19 +182,18 @@ async function main() {
   const order1 = await prisma.order.create({
     data: {
       customerName: "John Doe",
-      totalAmount: 15.50,
-      isPaid: false,
+      totalAmount: 5.60,
       orderItems: {
         create: [
           {
-            productId: allProducts[0].id, // Espresso
+            productId: allProducts[9].id, // Koffie
             quantity: 2,
-            price: allProducts[0].price
+            price: allProducts[9].price
           },
           {
-            productId: allProducts[5].id, // Croissant
+            productId: allProducts[15].id, // Thee
             quantity: 1,
-            price: allProducts[5].price
+            price: allProducts[15].price
           }
         ]
       }
@@ -148,19 +203,18 @@ async function main() {
   const order2 = await prisma.order.create({
     data: {
       customerName: "Jane Smith",
-      totalAmount: 23.75,
-      isPaid: true,
+      totalAmount: 7.20,
       orderItems: {
         create: [
           {
-            productId: allProducts[1].id, // Cappuccino
-            quantity: 2,
-            price: allProducts[1].price
-          },
-          {
-            productId: allProducts[8].id, // Ham & Cheese Sandwich
+            productId: allProducts[8].id, // Jus d'orange
             quantity: 1,
             price: allProducts[8].price
+          },
+          {
+            productId: allProducts[6].id, // Falafel
+            quantity: 1,
+            price: allProducts[6].price
           }
         ]
       }
@@ -170,19 +224,18 @@ async function main() {
   const order3 = await prisma.order.create({
     data: {
       customerName: "Bob Johnson",
-      totalAmount: 8.25,
-      isPaid: false,
+      totalAmount: 4.70,
       orderItems: {
         create: [
           {
-            productId: allProducts[2].id, // Latte
+            productId: allProducts[2].id, // Bier
             quantity: 1,
             price: allProducts[2].price
           },
           {
-            productId: allProducts[6].id, // Blueberry Muffin
+            productId: allProducts[14].id, // Soep
             quantity: 1,
-            price: allProducts[6].price
+            price: allProducts[14].price
           }
         ]
       }

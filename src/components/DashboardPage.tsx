@@ -1,10 +1,20 @@
 import { useState, useEffect } from 'react';
-import { ShoppingCart, Package, DollarSign, Clock, Check, CreditCard } from 'lucide-react';
+import { ShoppingCart, Package, DollarSign, Clock } from 'lucide-react';
 import { DashboardStats, Order } from '@/types';
 
 interface DashboardPageProps {
   onViewOrder?: (orderId: number) => void;
 }
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};
 
 const DashboardPage = ({ onViewOrder }: DashboardPageProps) => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -43,6 +53,8 @@ const DashboardPage = ({ onViewOrder }: DashboardPageProps) => {
     fetchData();
   }, []);
 
+
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -66,17 +78,17 @@ const DashboardPage = ({ onViewOrder }: DashboardPageProps) => {
     color: string;
   }) => (
     <div className="bg-white overflow-hidden shadow rounded-lg">
-      <div className="p-5">
+      <div className="p-3 sm:p-5">
         <div className="flex items-center">
           <div className="flex-shrink-0">
-            <Icon className={`h-6 w-6 ${color}`} />
+            <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${color}`} />
           </div>
-          <div className="ml-5 w-0 flex-1">
+          <div className="ml-3 sm:ml-5 w-0 flex-1">
             <dl>
-              <dt className="text-sm font-medium text-gray-500 truncate">
+              <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">
                 {title}
               </dt>
-              <dd className="text-lg font-medium text-gray-900">
+              <dd className="text-base sm:text-lg font-medium text-gray-900">
                 {value}
               </dd>
             </dl>
@@ -88,15 +100,15 @@ const DashboardPage = ({ onViewOrder }: DashboardPageProps) => {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard</h1>
         <p className="mt-1 text-sm text-gray-600">
           Welcome to your cafe management system
         </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+      <div className="grid grid-cols-2 gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8">
         <StatCard
           title="Total Orders"
           value={stats.totalOrders}
@@ -125,42 +137,34 @@ const DashboardPage = ({ onViewOrder }: DashboardPageProps) => {
 
       {/* Recent Orders */}
       <div className="bg-white shadow rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+        <div className="px-3 py-4 sm:px-4 sm:py-5 lg:p-6">
+          <h3 className="text-base sm:text-lg leading-6 font-medium text-gray-900 mb-3 sm:mb-4">
             Recent Orders
           </h3>
           {recentOrders.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {recentOrders.map((order) => (
-                <div
-                  key={order.id}
-                  onClick={() => onViewOrder?.(order.id)}
-                  className="flex justify-between items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <div className="mr-3">
-                      {order.isPaid ? (
-                        <Check className="h-4 w-4 text-green-500" />
-                      ) : (
-                        <CreditCard className="h-4 w-4 text-red-500" />
-                      )}
+                  <div
+                    key={order.id}
+                    onClick={() => onViewOrder?.(order.id)}
+                    className="flex justify-between items-center p-2 sm:p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
+                  >
+                    <div className="flex items-center min-w-0 flex-1">
+                      <div className="mr-2 sm:mr-3 flex-shrink-0">
+                        <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <p className="text-sm sm:text-base font-medium text-gray-900 truncate">Order #{order.id}</p>
+                        </div>
+                        <p className="text-xs sm:text-sm text-gray-600 truncate">{order.customerName}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-gray-900">Order #{order.id}</p>
-                      <p className="text-sm text-gray-600">{order.customerName}</p>
+                    <div className="text-right flex-shrink-0 ml-2">
+                      <p className="text-sm sm:text-base font-medium text-gray-900">€{order.totalAmount.toFixed(2)}</p>
+                      <p className="text-xs text-gray-500 hidden sm:block">{formatDate(order.createdAt)}</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-medium text-gray-900">€{order.totalAmount.toFixed(2)}</p>
-                    <p className={`text-xs px-2 py-1 rounded-full ${
-                      order.isPaid
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {order.isPaid ? 'Paid' : 'Unpaid'}
-                    </p>
-                  </div>
-                </div>
               ))}
             </div>
           ) : (

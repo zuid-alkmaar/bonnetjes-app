@@ -18,6 +18,7 @@ const CreateOrderPage = ({ onOrderCreated }: CreateOrderPageProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -117,24 +118,24 @@ const CreateOrderPage = ({ onOrderCreated }: CreateOrderPageProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
       {/* Products Section */}
       <div className="lg:col-span-2">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Create New Order</h1>
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Create New Order</h1>
           <p className="mt-1 text-sm text-gray-600">
             Select products to add to the order
           </p>
         </div>
 
         {/* Category Filter */}
-        <div className="mb-6">
-          <div className="flex space-x-2">
+        <div className="mb-4 sm:mb-6">
+          <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium ${
                   selectedCategory === category
                     ? 'bg-amber-100 text-amber-700'
                     : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
@@ -147,17 +148,17 @@ const CreateOrderPage = ({ onOrderCreated }: CreateOrderPageProps) => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {filteredProducts.map((product) => (
-            <div key={product.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div key={product.id} className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="font-medium text-gray-900">{product.name}</h3>
-                <span className="text-lg font-bold text-amber-600">€{product.price.toFixed(2)}</span>
+                <h3 className="text-sm sm:text-base font-medium text-gray-900 truncate pr-2">{product.name}</h3>
+                <span className="text-base sm:text-lg font-bold text-amber-600 flex-shrink-0">€{product.price.toFixed(2)}</span>
               </div>
-              <p className="text-sm text-gray-600 mb-3">{product.description}</p>
+              <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">{product.description}</p>
               <button
                 onClick={() => addToOrder(product)}
-                className="w-full bg-amber-600 text-white px-3 py-2 rounded-md hover:bg-amber-700 transition-colors"
+                className="w-full bg-amber-600 text-white px-3 py-2 rounded-md text-sm hover:bg-amber-700 transition-colors"
               >
                 Add to Order
               </button>
@@ -168,14 +169,14 @@ const CreateOrderPage = ({ onOrderCreated }: CreateOrderPageProps) => {
 
       {/* Order Summary Section */}
       <div className="lg:col-span-1">
-        <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
-            <ShoppingCart className="h-5 w-5 mr-2" />
+        <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 lg:sticky lg:top-6">
+          <h2 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
             Order Summary
           </h2>
 
           {/* Customer Name */}
-          <div className="mb-4">
+          <div className="mb-3 sm:mb-4">
             <label htmlFor="customerName" className="block text-sm font-medium text-gray-700 mb-2">
               Customer Name
             </label>
@@ -184,36 +185,38 @@ const CreateOrderPage = ({ onOrderCreated }: CreateOrderPageProps) => {
               id="customerName"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 text-gray-700 focus:ring-amber-500"
               placeholder="Enter customer name"
             />
           </div>
 
+
+
           {/* Order Items */}
-          <div className="mb-4">
+          <div className="mb-3 sm:mb-4">
             {orderItems.length === 0 ? (
               <p className="text-gray-500 text-sm">No items added yet</p>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {orderItems.map((item) => (
                   <div key={item.product.id} className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">{item.product.name}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">{item.product.name}</p>
                       <p className="text-xs text-gray-500">€{item.product.price.toFixed(2)} each</p>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-gray-400 hover:text-gray-600 p-1"
                       >
-                        <Minus className="h-4 w-4" />
+                        <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                       </button>
-                      <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
+                      <span className="text-sm font-medium w-6 sm:w-8 text-gray-600 text-center">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-gray-400 hover:text-gray-600 p-1"
                       >
-                        <Plus className="h-4 w-4" />
+                        <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                       </button>
                       <button
                         onClick={() => removeFromOrder(item.product.id)}

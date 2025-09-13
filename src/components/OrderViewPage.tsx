@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Trash2, Plus, Minus, CreditCard, Check } from 'lucide-react';
-import { Order, Product } from '@/types';
+import { ArrowLeft, Trash2, Plus, Minus, Edit, Save, X } from 'lucide-react';
+import { Order, Product, OrderItem } from '@/types';
 import ConfirmDialog from './ConfirmDialog';
 
 interface OrderViewPageProps {
@@ -48,26 +48,9 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
     fetchData();
   }, [orderId]);
 
-  const handleMarkAsPaid = async () => {
-    if (!order) return;
 
-    try {
-      const response = await fetch(`/api/orders/${order.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ isPaid: !order.isPaid }),
-      });
 
-      if (response.ok) {
-        const updatedOrder = await response.json();
-        setOrder(updatedOrder);
-      }
-    } catch (error) {
-      console.error('Error updating payment status:', error);
-    }
-  };
+
 
   const handleDeleteOrder = async () => {
     if (!order) return;
@@ -178,22 +161,13 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Orders
             </button>
-            <h1 className="text-2xl font-bold text-gray-900">Order #{order.id}</h1>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Order #{order.id}</h1>
+            </div>
           </div>
           <div className="flex items-center space-x-3">
             {!isEditing ? (
               <>
-                <button
-                  onClick={handleMarkAsPaid}
-                  className={`flex items-center px-4 py-2 text-sm font-medium border border-transparent rounded-md ${
-                    order.isPaid
-                      ? 'text-gray-700 bg-gray-100 hover:bg-gray-200'
-                      : 'text-white bg-green-600 hover:bg-green-700'
-                  }`}
-                >
-                  {order.isPaid ? <Check className="h-4 w-4 mr-2" /> : <CreditCard className="h-4 w-4 mr-2" />}
-                  {order.isPaid ? 'Mark as Unpaid' : 'Mark as Paid'}
-                </button>
                 <button
                   onClick={() => setIsEditing(true)}
                   className="flex items-center px-4 py-2 text-sm font-medium text-white bg-amber-600 border border-transparent rounded-md hover:bg-amber-700"
@@ -243,22 +217,7 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
               <label className="block text-sm font-medium text-gray-700">Total Amount</label>
               <p className="mt-1 text-lg font-semibold text-amber-600">€{order.totalAmount.toFixed(2)}</p>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Payment Status</label>
-              <div className="mt-1 flex items-center">
-                {order.isPaid ? (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                    <Check className="h-4 w-4 mr-1" />
-                    Paid
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                    <CreditCard className="h-4 w-4 mr-1" />
-                    Unpaid
-                  </span>
-                )}
-              </div>
-            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Order Date</label>
               <p className="mt-1 text-sm text-gray-900">
@@ -266,6 +225,8 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
               </p>
             </div>
           </div>
+
+
         </div>
       </div>
 

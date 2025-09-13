@@ -10,53 +10,55 @@ export async function PUT(
     const body = await request.json();
     const { orderItems } = body;
 
-    // Start a transaction to update order items and total
-    const result = await prisma.$transaction(async (tx) => {
-      // Delete existing order items
+    // Calculate new total amount
+    let newTotalAmount = 0;
+    for (const item of orderItems) {
+      const product = await prisma.product.findUnique({
+        where: { id: item.productId }
+      });
+      if (product) {
+        newTotalAmount += product.price * item.quantity;
+      }
+    }
+
+    // Update order items
+    await prisma.$transaction(async (tx) => {
       await tx.orderItem.deleteMany({
         where: { orderId: parseInt(id) }
       });
 
-      // Create new order items
-      const newOrderItems = await Promise.all(
+      await Promise.all(
         orderItems.map((item: any) =>
           tx.orderItem.create({
             data: {
               orderId: parseInt(id),
               productId: item.productId,
               quantity: item.quantity,
-              price: item.price,
-            },
-            include: {
-              product: true
+              price: item.price
             }
           })
         )
       );
 
-      // Calculate new total
-      const newTotal = newOrderItems.reduce(
-        (sum, item) => sum + (item.price * item.quantity),
-        0
-      );
-
-      // Update order total
-      const updatedOrder = await tx.order.update({
+      await tx.order.update({
         where: { id: parseInt(id) },
-        data: { totalAmount: newTotal },
-        include: {
-          orderItems: {
-            include: {
-              product: true
-            }
-          }
-        }
+        data: { totalAmount: newTotalAmount }
       });
-
-      return updatedOrder;
     });
 
-    return NextResponse.json(result);
+    // Return updated order
+    const updatedOrder = await prisma.order.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        orderItems: {
+          include: {
+            product: true
+          }
+        }
+      }
+    });
+
+    return NextResponse.json(updatedOrder);
   } catch (error) {
     console.error('Error updating order items:', error);
     return NextResponse.json(

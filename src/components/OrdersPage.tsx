@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Trash2, CreditCard, Check } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { Order } from '@/types';
 import OrderViewPage from './OrderViewPage';
 import ConfirmDialog from './ConfirmDialog';
@@ -47,6 +47,8 @@ const OrdersPage = () => {
       console.error('Error deleting order:', error);
     }
   };
+
+
 
   const handleViewOrder = (orderId: number) => {
     setViewingOrderId(orderId);
@@ -104,57 +106,43 @@ const OrdersPage = () => {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Orders</h1>
         <p className="mt-1 text-sm text-gray-600">
           Manage and track all customer orders
         </p>
       </div>
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-md">
+      <div className="bg-white shadow overflow-hidden rounded-md">
         <ul className="divide-y divide-gray-200">
           {orders.map((order) => (
             <li key={order.id}>
               <div
-                className="px-4 py-4 sm:px-6 cursor-pointer hover:bg-gray-50 transition-colors"
+                className="px-3 py-3 sm:px-4 sm:py-4 lg:px-6 cursor-pointer hover:bg-gray-50 transition-colors"
                 onClick={() => handleViewOrder(order.id)}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center flex-1">
-                    <div className="flex-shrink-0">
-                      {order.isPaid ? (
-                        <Check className="h-4 w-4 text-green-500" />
-                      ) : (
-                        <CreditCard className="h-4 w-4 text-red-500" />
-                      )}
-                    </div>
-                    <div className="ml-4 flex-1">
-                      <div className="flex items-center">
-                        <p className="text-sm font-medium text-gray-900">
+                  <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center flex-wrap gap-1 sm:gap-2">
+                        <p className="text-sm sm:text-base font-medium text-gray-900 truncate">
                           Order #{order.id} - {order.customerName}
                         </p>
-                        <span className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          order.isPaid
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {order.isPaid ? 'Paid' : 'Unpaid'}
-                        </span>
                       </div>
-                      <div className="mt-1 flex items-center text-sm text-gray-500">
+                      <div className="mt-1 flex items-center text-xs sm:text-sm text-gray-500">
                         <p>€{order.totalAmount.toFixed(2)}</p>
-                        <span className="mx-2">•</span>
-                        <p>{formatDate(order.createdAt)}</p>
+                        <span className="mx-1 sm:mx-2">•</span>
+                        <p className="truncate">{formatDate(order.createdAt)}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                     <button
                       onClick={(e) => handleDeleteClick(e, order)}
-                      className="text-gray-400 hover:text-red-600 p-2 rounded-md hover:bg-red-50"
+                      className="text-gray-400 hover:text-red-600 p-1 sm:p-2 rounded-md hover:bg-red-50"
                       title="Delete Order"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                     </button>
                   </div>
                 </div>

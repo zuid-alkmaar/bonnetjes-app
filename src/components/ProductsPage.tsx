@@ -134,30 +134,31 @@ const ProductsPage = () => {
 
   return (
     <div>
-      <div className="mb-8 flex justify-between items-center">
+      <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Products</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Products</h1>
           <p className="mt-1 text-sm text-gray-600">
             Manage your cafe menu and pricing
           </p>
         </div>
         <button
           onClick={handleAddProduct}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-amber-600 hover:bg-amber-700"
+          className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-amber-600 hover:bg-amber-700"
         >
           <Plus className="h-4 w-4 mr-2" />
-          Add Product
+          <span className="hidden sm:inline">Add Product</span>
+          <span className="sm:hidden">Add</span>
         </button>
       </div>
 
       {/* Category Filter */}
-      <div className="mb-6">
-        <div className="flex space-x-2">
+      <div className="mb-4 sm:mb-6">
+        <div className="flex flex-wrap gap-2">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-3 py-2 rounded-md text-sm font-medium ${
+              className={`px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium ${
                 selectedCategory === category
                   ? 'bg-amber-100 text-amber-700'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
@@ -170,34 +171,34 @@ const ProductsPage = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filteredProducts.map((product) => (
           <div key={product.id} className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center">
+            <div className="p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <div className="flex items-center min-w-0 flex-1">
                   {getCategoryIcon(product.category)}
-                  <span className="ml-2 text-sm text-gray-500">{product.category}</span>
+                  <span className="ml-2 text-xs sm:text-sm text-gray-500 truncate">{product.category}</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
                   <button
                     onClick={() => handleViewProduct(product)}
-                    className="text-gray-400 hover:text-blue-600"
+                    className="text-gray-400 hover:text-blue-600 p-1"
                     title="View Details"
                   >
-                    <Eye className="h-4 w-4" />
+                    <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                   </button>
                   <button
                     onClick={() => handleEditProduct(product)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-gray-400 hover:text-gray-600 p-1"
                     title="Edit Product"
                   >
-                    <Edit className="h-4 w-4" />
+                    <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                   </button>
                   <button
                     onClick={() => handleDeleteClick(product)}
                     disabled={loading || referencedProductIds.has(product.id)}
-                    className={`${
+                    className={`p-1 ${
                       loading || referencedProductIds.has(product.id)
                         ? 'text-gray-300 cursor-not-allowed'
                         : 'text-gray-400 hover:text-red-600'
@@ -210,7 +211,7 @@ const ProductsPage = () => {
                         : 'Delete Product'
                     }
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </button>
                 </div>
               </div>
