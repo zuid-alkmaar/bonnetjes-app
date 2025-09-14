@@ -1,0 +1,300 @@
+/* Custom styles for Bonnetjes Cafe */
+
+/* Mobile responsive improvements */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .mobile-stack {
+        display: block !important;
+    }
+    
+    .mobile-stack > * {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Product cards hover effects */
+.product-card {
+    transition: all 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Order item animations */
+.order-item {
+    transition: all 0.3s ease-in-out;
+}
+
+.order-item.removing {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Form improvements */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+    border-color: #f59e0b;
+}
+
+/* Button improvements */
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Toast notifications */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #10b981;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast.error {
+    background: #ef4444;
+}
+
+/* Sticky elements */
+.sticky-top {
+    position: sticky;
+    top: 1.5rem;
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-only {
+        display: block !important;
+    }
+    
+    body {
+        background: white !important;
+    }
+    
+    .shadow {
+        box-shadow: none !important;
+    }
+}
+
+/* Accessibility improvements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus styles */
+.focus\:ring-2:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px #f59e0b;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Animation utilities */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-in-out;
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Status indicators */
+.status-active {
+    background: #10b981;
+    color: white;
+}
+
+.status-inactive {
+    background: #6b7280;
+    color: white;
+}
+
+/* Card improvements */
+.card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Utility classes */
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.border-dashed {
+    border-style: dashed;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+/* Order editing styles */
+.edit-quantity-btn {
+    transition: all 0.2s ease;
+}
+
+.edit-quantity-btn:hover {
+    transform: scale(1.1);
+}
+
+.edit-quantity-btn:active {
+    transform: scale(0.95);
+}
+
+.edit-item-container {
+    transition: all 0.3s ease;
+}
+
+.edit-item-container:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-display {
+    min-width: 3rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.add-product-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 2px dashed #cbd5e0;
+    transition: all 0.3s ease;
+}
+
+.add-product-section:hover {
+    border-color: #4299e1;
+    background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+}
+
+.edit-mode-buttons {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid #e2e8f0;
+    position: sticky;
+    bottom: 0;
+    padding: 1rem;
+    margin: -1rem;
+    margin-top: 1rem;
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+    .dark-mode {
+        background: #1f2937;
+        color: #f9fafb;
+    }
+}

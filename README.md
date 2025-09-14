@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bonnetjes Cafe - Order Management System
 
-## Getting Started
+A modern, mobile-responsive cafe order management system with separated frontend and backend architecture. Built with Next.js frontend and Express TypeScript API server.
 
-First, run the development server:
+## 🏗️ Architecture
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Frontend**: Next.js 15 with TypeScript and Tailwind CSS
+- **Backend**: Express.js TypeScript API server with Prisma ORM
+- **Database**: SQLite for local development
+- **API**: RESTful endpoints with full CRUD operations
+- **Separation**: Clean frontend/backend separation for better scalability
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **📱 Mobile Responsive**: Optimized for all devices (mobile, tablet, desktop)
+- **📋 Order Management**: Create, view, edit, and delete customer orders
+- **🛍️ Product Catalog**: Manage menu items with categories and pricing
+- **📊 Dashboard Analytics**: Real-time stats on orders, revenue, and products
+- **🎨 Modern UI**: Clean, intuitive interface with Tailwind CSS
+- **⚡ Fast Performance**: Built with Next.js 15 and optimized for speed
+- **🔒 Type Safe**: Full TypeScript implementation across frontend and backend
+- **🔌 RESTful API**: Standalone TypeScript server with comprehensive endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Quick Start
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js 18+
+- npm or yarn
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Local Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repo-url>
+   cd bonnetjes-app
+   ```
 
-## Deploy on Vercel
+2. **Install dependencies for both frontend and backend:**
+   ```bash
+   # Frontend dependencies
+   npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   # Backend dependencies
+   cd server
+   npm install
+   cd ..
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Set up the API server:**
+   ```bash
+   cd server
+   npx prisma db push
+   npm run db:seed
+   npm run dev
+   ```
+
+4. **Start the frontend (in a new terminal):**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser:**
+   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - API Server: [http://localhost:3001](http://localhost:3001)
+   - API Health: [http://localhost:3001/health](http://localhost:3001/health)
+
+## 🚀 Deployment
+
+This application is ready for deployment on Vercel with PostgreSQL database support.
+
+### Quick Deployment Steps
+
+1. **Check migration readiness:**
+   ```bash
+   npm run migrate:check
+   ```
+
+2. **Deploy to Vercel:**
+   - Connect your GitHub repository to Vercel
+   - Set up environment variables in Vercel dashboard
+   - Deploy automatically
+
+3. **Set up database:**
+   - Create a Supabase project
+   - Configure environment variables
+   - Run database migrations
+
+
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS 4
+- **Database**: SQLite with Prisma ORM
+- **Icons**: Lucide React
+- **Deployment**: Vercel
+- **Database**: Local SQLite file
+
+## 📱 Mobile Responsive Design
+
+The application is fully optimized for mobile devices with:
+
+- Responsive navigation with hamburger menu
+- Touch-friendly controls and buttons
+- Adaptive layouts for all screen sizes
+- Optimized typography and spacing
+- Fast loading on mobile networks
+
+## 🔧 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run db:seed` - Seed database with sample data
+- `npm run db:push` - Push schema changes to database
+- `npm run migrate:check` - Check PostgreSQL migration readiness
+
+## 📊 Features Overview
+
+### Dashboard
+- Real-time order statistics
+- Revenue tracking
+- Product inventory overview
+- Recent orders list
+
+### Order Management
+- Create new orders with product selection
+- View and edit existing orders
+- Delete orders with confirmation
+- Customer name tracking
+
+### Product Management
+- Add/edit/delete products
+- Category organization
+- Price management
+- Product descriptions
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For deployment issues or questions, check:
+- [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed setup instructions
+- [Vercel Documentation](https://vercel.com/docs)
+- [Supabase Documentation](https://supabase.com/docs)

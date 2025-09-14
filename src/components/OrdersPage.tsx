@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Trash2 } from 'lucide-react';
-import { Order } from '@/types';
+import { apiClient, Order } from '@/lib/api';
 import OrderViewPage from './OrderViewPage';
 import ConfirmDialog from './ConfirmDialog';
 
@@ -14,11 +14,8 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch('/api/orders');
-        if (response.ok) {
-          const data = await response.json();
-          setOrders(data);
-        }
+        const data = await apiClient.getOrders();
+        setOrders(data);
       } catch (error) {
         console.error('Error fetching orders:', error);
       } finally {
@@ -36,13 +33,8 @@ const OrdersPage = () => {
 
   const handleDeleteOrder = async (id: number) => {
     try {
-      const response = await fetch(`/api/orders/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setOrders(orders.filter(o => o.id !== id));
-      }
+      await apiClient.deleteOrder(id);
+      setOrders(orders.filter(o => o.id !== id));
     } catch (error) {
       console.error('Error deleting order:', error);
     }
@@ -59,11 +51,8 @@ const OrdersPage = () => {
     // Refresh orders list
     const fetchOrders = async () => {
       try {
-        const response = await fetch('/api/orders');
-        if (response.ok) {
-          const data = await response.json();
-          setOrders(data);
-        }
+        const data = await apiClient.getOrders();
+        setOrders(data);
       } catch (error) {
         console.error('Error fetching orders:', error);
       }

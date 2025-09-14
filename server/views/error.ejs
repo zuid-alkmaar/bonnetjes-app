@@ -1,0 +1,26 @@
+
+
+<div class="py-6">
+    <div class="max-w-md mx-auto text-center">
+        <div class="bg-white rounded-lg shadow p-8">
+            <div class="mb-6">
+                <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2"><%= error %></h1>
+                <% if (message) { %>
+                    <p class="text-gray-600"><%= message %></p>
+                <% } %>
+            </div>
+            
+            <div class="space-y-3">
+                <a href="/" class="w-full bg-amber-600 text-white py-2 px-4 rounded-md hover:bg-amber-700 transition-colors inline-block">
+                    <i class="fas fa-home mr-2"></i>
+                    Go to Dashboard
+                </a>
+                <button onclick="history.back()" class="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Go Back
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

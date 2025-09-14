@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Trash2, Plus, Minus } from 'lucide-react';
-import { Order, Product } from '@/types';
+import { apiClient, Order, Product } from '@/lib/api';
 import ConfirmDialog from './ConfirmDialog';
 
 interface OrderViewPageProps {
@@ -21,23 +21,14 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [orderResponse, productsResponse] = await Promise.all([
-          fetch(`/api/orders/${orderId}`),
-          fetch('/api/products')
+        const [orderData, productsData] = await Promise.all([
+          apiClient.getOrder(orderId),
+          apiClient.getProducts()
         ]);
 
-        if (orderResponse.ok) {
-          const orderData = await orderResponse.json();
-          setOrder(orderData);
-          setEditedItems(orderData.orderItems || []);
-        } else {
-          console.error('Failed to fetch order');
-        }
-
-        if (productsResponse.ok) {
-          const productsData = await productsResponse.json();
-          setProducts(productsData);
-        }
+        setOrder(orderData);
+        setEditedItems(orderData.orderItems || []);
+        setProducts(productsData);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -56,13 +47,8 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
     if (!order) return;
 
     try {
-      const response = await fetch(`/api/orders/${order.id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        onOrderDeleted();
-      }
+      await apiClient.deleteOrder(order.id);
+      onOrderDeleted();
     } catch (error) {
       console.error('Error deleting order:', error);
     }
@@ -94,26 +80,17 @@ const OrderViewPage = ({ orderId, onBack, onOrderDeleted }: OrderViewPageProps) 
     if (!order) return;
 
     try {
-      const response = await fetch(`/api/orders/${order.id}/items`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          orderItems: editedItems.map(item => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            price: item.price
-          }))
-        }),
+      const updatedOrder = await apiClient.updateOrder(order.id, {
+        orderItems: editedItems.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price
+        }))
       });
 
-      if (response.ok) {
-        const updatedOrder = await response.json();
-        setOrder(updatedOrder);
-        setEditedItems(updatedOrder.orderItems || []);
-        setIsEditing(false);
-      }
+      setOrder(updatedOrder);
+      setEditedItems(updatedOrder.orderItems || []);
+      setIsEditing(false);
     } catch (error) {
       console.error('Error updating order:', error);
     }

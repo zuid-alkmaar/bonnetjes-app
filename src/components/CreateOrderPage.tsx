@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Minus, ShoppingCart, X } from 'lucide-react';
-import { Product } from '@/types';
+import { apiClient, Product } from '@/lib/api';
 
 interface CreateOrderPageProps {
   onOrderCreated?: () => void;
@@ -22,11 +22,8 @@ const CreateOrderPage = ({ onOrderCreated }: CreateOrderPageProps) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products');
-        if (response.ok) {
-          const data = await response.json();
-          setProducts(data);
-        }
+        const data = await apiClient.getProducts();
+        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -89,21 +86,13 @@ const CreateOrderPage = ({ onOrderCreated }: CreateOrderPageProps) => {
         }))
       };
 
-      const response = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
-      });
+      await apiClient.createOrder(orderData);
 
-      if (response.ok) {
-        // Reset form
-        setCustomerName('');
-        setOrderItems([]);
-        // Redirect to orders page
-        onOrderCreated?.();
-      }
+      // Reset form
+      setCustomerName('');
+      setOrderItems([]);
+      // Redirect to orders page
+      onOrderCreated?.();
     } catch (error) {
       console.error('Error creating order:', error);
     }

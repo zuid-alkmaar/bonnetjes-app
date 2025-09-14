@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ShoppingCart, Package, DollarSign, Clock, LucideIcon } from 'lucide-react';
-import { DashboardStats, Order } from '@/types';
+import { apiClient, DashboardStats, Order } from '@/lib/api';
 
 interface DashboardPageProps {
   onViewOrder?: (orderId: number) => void;
@@ -24,25 +24,14 @@ const DashboardPage = ({ onViewOrder }: DashboardPageProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [statsResponse, ordersResponse] = await Promise.all([
-          fetch('/api/dashboard/stats'),
-          fetch('/api/orders')
+        const [statsData, ordersData] = await Promise.all([
+          apiClient.getDashboardStats(),
+          apiClient.getOrders()
         ]);
 
-        if (statsResponse.ok) {
-          const statsData = await statsResponse.json();
-          setStats(statsData);
-        } else {
-          console.error('Failed to fetch dashboard stats');
-        }
-
-        if (ordersResponse.ok) {
-          const ordersData = await ordersResponse.json();
-          // Get the 5 most recent orders
-          setRecentOrders(ordersData.slice(0, 5));
-        } else {
-          console.error('Failed to fetch recent orders');
-        }
+        setStats(statsData);
+        // Get the 5 most recent orders
+        setRecentOrders(ordersData.slice(0, 5));
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {

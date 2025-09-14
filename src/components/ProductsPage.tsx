@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Edit, Trash2, Plus, Coffee, Utensils, Eye } from 'lucide-react';
-import { Product } from '@/types';
+import { apiClient, Product } from '@/lib/api';
 import ProductForm from './ProductForm';
 import ProductDetails from './ProductDetails';
 import ConfirmDialog from './ConfirmDialog';
@@ -18,26 +18,20 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productsResponse, ordersResponse] = await Promise.all([
-          fetch('/api/products'),
-          fetch('/api/orders')
+        const [productsData, ordersData] = await Promise.all([
+          apiClient.getProducts(),
+          apiClient.getOrders()
         ]);
 
-        if (productsResponse.ok) {
-          const productsData = await productsResponse.json();
-          setProducts(productsData);
-        }
+        setProducts(productsData);
 
-        if (ordersResponse.ok) {
-          const ordersData = await ordersResponse.json();
-          const referencedIds = new Set<number>();
-          ordersData.forEach((order: { orderItems?: Array<{ productId: number }> }) => {
-            order.orderItems?.forEach((item: { productId: number }) => {
-              referencedIds.add(item.productId);
-            });
+        const referencedIds = new Set<number>();
+        ordersData.forEach((order: { orderItems?: Array<{ productId: number }> }) => {
+          order.orderItems?.forEach((item: { productId: number }) => {
+            referencedIds.add(item.productId);
           });
-          setReferencedProductIds(referencedIds);
-        }
+        });
+        setReferencedProductIds(referencedIds);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -66,17 +60,12 @@ const ProductsPage = () => {
 
   const handleDeleteProduct = async (id: number) => {
     try {
-      const response = await fetch(`/api/products/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setProducts(products.filter(p => p.id !== id));
-        // Update referenced products list
-        const updatedReferencedIds = new Set(referencedProductIds);
-        updatedReferencedIds.delete(id);
-        setReferencedProductIds(updatedReferencedIds);
-      }
+      await apiClient.deleteProduct(id);
+      setProducts(products.filter(p => p.id !== id));
+      // Update referenced products list
+      const updatedReferencedIds = new Set(referencedProductIds);
+      updatedReferencedIds.delete(id);
+      setReferencedProductIds(updatedReferencedIds);
     } catch (error) {
       console.error('Error deleting product:', error);
     }
